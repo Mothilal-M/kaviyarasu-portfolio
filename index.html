@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
     <style>
         /* ====== CSS RESET & VARIABLES ====== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,13 +59,68 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ====== THREE.JS CANVAS ====== */
-        #three-canvas {
+        /* ====== SPLINE 3D ====== */
+        .spline-bg {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 0;
             pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .spline-bg spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-spline {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            pointer-events: auto;
+            z-index: 0;
+            opacity: 0.85;
+        }
+
+        .hero-spline spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .about-spline {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .about-spline spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tech-spline-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .tech-spline {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tech-spline spline-viewer {
+            width: 100%;
+            height: 100%;
         }
 
         /* ====== NAVIGATION ====== */
@@ -167,11 +222,14 @@
             align-items: center;
             justify-content: center;
             padding: 120px 32px 80px;
+            overflow: hidden;
         }
 
         .hero-content {
-            max-width: 900px;
+            max-width: 700px;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-badge {
@@ -428,38 +486,9 @@
             justify-content: center;
         }
 
-        .about-avatar-ring {
-            width: 320px; height: 320px;
-            border-radius: 50%;
-            padding: 4px;
-            background: var(--gradient-primary);
-            position: relative;
-            animation: float 6s ease-in-out infinite;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-12px); }
-        }
-
-        .about-avatar-inner {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            border: 4px solid var(--bg-primary);
-        }
-
-        .about-avatar-inner span {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .orbit-icon {
@@ -1183,8 +1212,9 @@
 
             .about-grid { grid-template-columns: 1fr; text-align: center; }
             .about-visual { margin-bottom: 32px; }
-            .about-avatar-ring { width: 240px; height: 240px; }
-            .about-avatar-inner { font-size: 56px; }
+            .about-spline { height: 300px; }
+            .hero-spline { display: none; }
+            .tech-spline { width: 200px; height: 200px; }
 
             .competencies-grid { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -1254,8 +1284,10 @@
     <!-- Cursor Glow -->
     <div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- Three.js Canvas -->
-    <canvas id="three-canvas"></canvas>
+    <!-- Spline 3D Background -->
+    <div class="spline-bg">
+        <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" loading-anim-type="none"></spline-viewer>
+    </div>
 
     <!-- Navigation -->
     <nav class="nav" id="nav">
@@ -1290,6 +1322,10 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
+        <!-- Spline 3D Hero Object -->
+        <div class="hero-spline">
+            <spline-viewer url="https://prod.spline.design/PyzDhMKMiFMIjfgg/scene.splinecode" loading-anim-type="spinner-big-dark"></spline-viewer>
+        </div>
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="dot"></span>
@@ -1369,10 +1405,8 @@
         <div class="section-container">
             <div class="about-grid">
                 <div class="about-visual reveal">
-                    <div class="about-avatar-ring">
-                        <div class="about-avatar-inner">
-                            <span>KM</span>
-                        </div>
+                    <div class="about-spline">
+                        <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="spinner-big-dark"></spline-viewer>
                     </div>
                     <div class="orbit-icon"><i class="fas fa-chart-line"></i></div>
                     <div class="orbit-icon"><i class="fas fa-dna"></i></div>
@@ -1626,6 +1660,11 @@
                 <h2 class="section-title">Technical Expertise</h2>
                 <p class="section-desc">Tools and technologies I leverage to deliver data-driven financial insights.</p>
             </div>
+            <div class="tech-spline-wrapper reveal">
+                <div class="tech-spline">
+                    <spline-viewer url="https://prod.spline.design/2sMP0oluBqFTF0Jk/scene.splinecode" loading-anim-type="spinner-big-dark"></spline-viewer>
+                </div>
+            </div>
             <div class="tech-grid">
                 <div class="glass-card tech-item tech-python reveal">
                     <div class="tech-icon"><i class="fab fa-python"></i></div>
@@ -1793,160 +1832,17 @@
     </footer>
 
     <script>
-        // ====== THREE.JS 3D BACKGROUND ======
-        (function() {
-            const canvas = document.getElementById('three-canvas');
-            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 30;
-
-            // Floating particles (DNA / data points inspired)
-            const particleCount = 300;
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-
-            const palette = [
-                [0.23, 0.51, 0.96],  // blue
-                [0.06, 0.71, 0.83],  // cyan
-                [0.06, 0.73, 0.50],  // emerald
-                [0.55, 0.36, 0.96],  // violet
-            ];
-
-            for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 60;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
-
-                const color = palette[Math.floor(Math.random() * palette.length)];
-                colors[i * 3] = color[0];
-                colors[i * 3 + 1] = color[1];
-                colors[i * 3 + 2] = color[2];
-            }
-
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 0.08,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.6,
-                sizeAttenuation: true,
-            });
-
-            const particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-
-            // Wireframe icosahedrons (3D molecular / data structure look)
-            const shapes = [];
-            const shapeGeometries = [
-                new THREE.IcosahedronGeometry(2, 1),
-                new THREE.OctahedronGeometry(1.5, 0),
-                new THREE.TetrahedronGeometry(1.8, 0),
-            ];
-
-            for (let i = 0; i < 5; i++) {
-                const geo = shapeGeometries[i % shapeGeometries.length];
-                const mat = new THREE.MeshBasicMaterial({
-                    color: new THREE.Color(palette[i % palette.length][0], palette[i % palette.length][1], palette[i % palette.length][2]),
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.08,
-                });
-                const mesh = new THREE.Mesh(geo, mat);
-                mesh.position.set(
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 20
-                );
-                mesh.userData = {
-                    rotSpeed: { x: (Math.random() - 0.5) * 0.005, y: (Math.random() - 0.5) * 0.005 },
-                    floatSpeed: Math.random() * 0.002 + 0.001,
-                    floatOffset: Math.random() * Math.PI * 2,
-                };
-                scene.add(mesh);
-                shapes.push(mesh);
-            }
-
-            // Connection lines
-            const lineGeo = new THREE.BufferGeometry();
-            const linePositions = new Float32Array(100 * 6);
-            lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-            const lineMat = new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.04 });
-            const lines = new THREE.LineSegments(lineGeo, lineMat);
-            scene.add(lines);
-
-            let mouseX = 0, mouseY = 0;
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-            });
-
-            function animate() {
-                requestAnimationFrame(animate);
-
-                const time = Date.now() * 0.001;
-
-                // Rotate particles
-                particles.rotation.y += 0.0003;
-                particles.rotation.x += 0.0001;
-
-                // Sync lines rotation with particles
-                lines.rotation.y = particles.rotation.y;
-                lines.rotation.x = particles.rotation.x;
-
-                // Animate shapes
-                shapes.forEach((shape) => {
-                    shape.rotation.x += shape.userData.rotSpeed.x;
-                    shape.rotation.y += shape.userData.rotSpeed.y;
-                    shape.position.y += Math.sin(time * shape.userData.floatSpeed * 100 + shape.userData.floatOffset) * 0.005;
-                });
-
-                // Update connection lines
-                const posArr = geometry.attributes.position.array;
-                let lineIdx = 0;
-                const maxLines = 100;
-                for (let i = 0; i < particleCount && lineIdx < maxLines; i++) {
-                    for (let j = i + 1; j < particleCount && lineIdx < maxLines; j++) {
-                        const dx = posArr[i * 3] - posArr[j * 3];
-                        const dy = posArr[i * 3 + 1] - posArr[j * 3 + 1];
-                        const dz = posArr[i * 3 + 2] - posArr[j * 3 + 2];
-                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                        if (dist < 5) {
-                            linePositions[lineIdx * 6] = posArr[i * 3];
-                            linePositions[lineIdx * 6 + 1] = posArr[i * 3 + 1];
-                            linePositions[lineIdx * 6 + 2] = posArr[i * 3 + 2];
-                            linePositions[lineIdx * 6 + 3] = posArr[j * 3];
-                            linePositions[lineIdx * 6 + 4] = posArr[j * 3 + 1];
-                            linePositions[lineIdx * 6 + 5] = posArr[j * 3 + 2];
-                            lineIdx++;
-                        }
-                    }
+        // ====== SPLINE 3D SETUP ======
+        // Hide Spline watermarks after loading
+        document.querySelectorAll('spline-viewer').forEach(viewer => {
+            viewer.addEventListener('load', () => {
+                const shadow = viewer.shadowRoot;
+                if (shadow) {
+                    const logo = shadow.querySelector('#logo');
+                    if (logo) logo.style.display = 'none';
                 }
-                lineGeo.setDrawRange(0, lineIdx * 2);
-                lineGeo.attributes.position.needsUpdate = true;
-
-                // Camera follow mouse
-                camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-                camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
-                camera.lookAt(0, 0, 0);
-
-                renderer.render(scene, camera);
-            }
-
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
             });
-        })();
+        });
 
         // ====== CURSOR GLOW ======
         const cursorGlow = document.getElementById('cursorGlow');
