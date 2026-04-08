@@ -1928,6 +1928,7 @@
                         }
                     }
                 }
+                lineGeo.setDrawRange(0, lineIdx * 2);
                 lineGeo.attributes.position.needsUpdate = true;
 
                 // Camera follow mouse
@@ -1974,6 +1975,7 @@
         // ====== MOBILE MENU ======
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('active') ? 'hidden' : '';
         }
 
         // ====== FORM HANDLER ======
